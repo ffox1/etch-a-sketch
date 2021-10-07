@@ -1,7 +1,37 @@
+body {
+    background-color: darkslategrey;
+}
+
 .container {
     display: grid;
     grid-template-rows: repeat(16, 30px);
     grid-template-columns: repeat(16, 30px);
-    border: 1px solid black;
+    border: 30px solid rgb(226, 194, 11);
     max-width: max-content;
+    border-radius: 16px;
+    background-color: white;
 }
+
+button {
+    background-color: #0246ff;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 28px;
+    margin-bottom:10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.slidertext {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.undraggable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+ }

@@ -12,10 +12,21 @@
 </head>
 
 <body>
-    <button>Reset</button>
+    <div class="buttons">
+        <button id="resetButton">Reset canvas</button>
+        <button id="blackButton">Black</button>
+        <button id="rainbowButton">Rainbow</button>
+        <button id="pickerButton">Color picker</button>
+        <button id="eraserButton">Eraser</button>
+
+    </div>
     <div class="slidecontainer">
         <input type="range" min="1" max="48" value="16" id="slider">
         <div class="slidertext"></div>
+    </div>
+    <div class="gridcheckbox">
+        <input type="checkbox" id="checkbox" checked>
+        <label for="checkbox">Show grid lines</label>
     </div>
     <div class="container"></div>
 
