@@ -12,23 +12,32 @@
 </head>
 
 <body>
-    <div class="buttons">
-        <button id="resetButton">Reset canvas</button>
-        <button id="blackButton">Black</button>
-        <button id="rainbowButton">Rainbow</button>
-        <button id="pickerButton">Color picker</button>
-        <button id="eraserButton">Eraser</button>
+    <div class="title">Etch a Sketch</div>
+    <div class="container">
+        <div class="panel">
+            <button id="blackButton">Black</button>
+            <input type="color" id="colorPicker" tabindex="-1" class="hidden">
+            <button id="pickerButton">Choose color</button>
+            <button id="rainbowButton">Rainbow</button>
+            <button id="eraserButton">Eraser</button>
+            <button id="resetButton">Reset canvas</button>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="48" value="16" id="slider">
+                <div class="slidertext">16 x 16</div>
+            </div>
+            <div class="gridcheckbox">
+                <input type="checkbox" id="checkbox" checked>
+                <label for="checkbox">Show grid lines</label>
+            </div>
+        </div>
 
+        <div class="canvasContainer"></div>
     </div>
-    <div class="slidecontainer">
-        <input type="range" min="1" max="48" value="16" id="slider">
-        <div class="slidertext"></div>
+    <div class="footer">
+        <img src="github.png" alt="Github: ">
+        <div class="text"><a href="https://github.com/ffox1">ffox1</a></div>
     </div>
-    <div class="gridcheckbox">
-        <input type="checkbox" id="checkbox" checked>
-        <label for="checkbox">Show grid lines</label>
-    </div>
-    <div class="container"></div>
+
 
 </body>
 

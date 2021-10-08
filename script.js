@@ -1,95 +1,106 @@
-const container = document.querySelector('.container');
-
+const container = document.querySelector('.canvasContainer');
 const resetButton = document.getElementById('resetButton');
 const blackButton = document.getElementById('blackButton');
 const rainbowButton = document.getElementById('rainbowButton');
-const pickerButton = document.getElementById('pickerButton');
+const chooseColorButton = document.getElementById('pickerButton');
 const eraserButton = document.getElementById('eraserButton');
+const chooseColorInput = document.getElementById('colorPicker');
+const canvasSizeSlider = document.getElementById('slider');
+const canvasSizeSliderText = document.querySelector('.slidertext');
+const showGridLinesCheckbox = document.getElementById('checkbox');
 
-const slider = document.getElementById('slider');
-const sliderText = document.querySelector('.slidertext');
-const checkbox = document.getElementById('checkbox');
-sliderText.textContent = slider.value + " x " + slider.value;
-
+let canvas;
 let color = 'black';
+let intervalID = 0; // for rainbow mode
 
-/*TODO: 
-fix const canvas
+// Allow drawing when holding click
+let mouseDown = 0;
+document.body.onmousedown = () => ++mouseDown;
+document.body.onmouseup = () => --mouseDown;
 
-code buttons
+// Start with a 16x16 canvas
+generateCanvas(16);
 
-refactor code
+blackButton.addEventListener('click', () => {
+    clearInterval(intervalID);
+    color = 'black';
+});
 
-blackButton.addEventListener('click');
-rainbowButton.addEventListener('click');
-pickerButton.addEventListener('click');
-eraserButton.addEventListener('click');
-*/
+chooseColorInput.addEventListener('input', () => {
+    clearInterval(intervalID);
+    color = chooseColorInput.value;
+});
 
-resetButton.addEventListener('click', reset);
+chooseColorButton.addEventListener('click', () => {
+    chooseColorInput.value = '#0000ff'
+    chooseColorInput.click();
+});
 
+rainbowButton.addEventListener('click', () => {
+    intervalID = setInterval(setRandomColor, 50);
+});
 
-checkbox.addEventListener('click', showGridLines);
+eraserButton.addEventListener('click', () => {
+    clearInterval(intervalID);
+    color = 'white';
+});
 
-generateGrid(16);
-
-function generateGrid(gridSize) {
-    for (let i = 0; i < gridSize ** 2; i++) {
-        const div = document.createElement('div');
-        div.style.border = '1px solid #606060';
-        div.classList.add('undraggable'); // prevents a bug
-        container.appendChild(div);
-    }
-    container.style.gridTemplateRows = `repeat(${gridSize}, ${600 / gridSize}px)`;
-    container.style.gridTemplateColumns = `repeat(${gridSize}, ${600 / gridSize}px)`;
-
-    const canvas = document.querySelectorAll('.container div');
+resetButton.addEventListener('click', () => {
     canvas.forEach((div) => {
-        div.addEventListener('mousedown', () => {
-                div.style.backgroundColor = `${color}`;
-        });
-
-        div.addEventListener('mouseenter', () => {
-            if (mouseDown) {
-                div.style.backgroundColor = `${color}`;
-            }
-
-        });
-    })
-}
-
-function reset() {
-    const canvas = document.querySelectorAll('.container div');
-    canvas.forEach((div) => {
-        div.style.backgroundColor = `${color}`;
+        div.style.backgroundColor = `white`;
     });
-}
+});
 
-slider.oninput = () => {
-    sliderText.textContent = slider.value + " x " + slider.value;
-};
-
-slider.onchange = () => {
-    container.textContent = '';
-    generateGrid(slider.value);
-};
-
-function showGridLines() {
-    const canvas = document.querySelectorAll('.container div');
+showGridLinesCheckbox.addEventListener('click', () => {
     canvas.forEach((div) => {
-        if (checkbox.checked == true) {
+        if (showGridLinesCheckbox.checked == true) {
             div.style.border = '1px solid #606060';
         }
         else {
             div.style.border = '';
         }
     });
+});
+
+canvasSizeSlider.oninput = () => {
+    canvasSizeSliderText.textContent = canvasSizeSlider.value + " x " + canvasSizeSlider.value;
+};
+
+canvasSizeSlider.onchange = () => {
+    container.textContent = '';
+    generateCanvas(canvasSizeSlider.value);
+};
+
+function generateCanvas(canvasSize) {
+    for (let i = 0; i < canvasSize ** 2; i++) {
+        const div = document.createElement('div');
+        if (showGridLinesCheckbox.checked == true) {
+            div.style.border = '1px solid #606060';
+        }
+        else {
+            div.style.border = '';
+        }
+        div.classList.add('undraggable'); // prevents a bug
+        container.appendChild(div);
+    }
+
+    container.style.gridTemplateRows = `repeat(${canvasSize}, ${600 / canvasSize}px)`;
+    container.style.gridTemplateColumns = `repeat(${canvasSize}, ${600 / canvasSize}px)`;
+
+    canvas = document.querySelectorAll('.canvasContainer div');
+    canvas.forEach((div) => {
+        div.addEventListener('mousedown', () => {
+            div.style.backgroundColor = `${color}`;
+        });
+        div.addEventListener('mouseenter', () => {
+            if (mouseDown) {
+                div.style.backgroundColor = `${color}`;
+            }
+        });
+    })
 }
 
-let mouseDown = 0;
-document.body.onmousedown = function () {
-    ++mouseDown;
-}
-document.body.onmouseup = function () {
-    --mouseDown;
+// Set color to random hex value
+function setRandomColor() {
+    color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 }
