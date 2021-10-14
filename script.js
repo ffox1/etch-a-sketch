@@ -2,9 +2,7 @@ const container = document.querySelector('.canvasContainer');
 const resetButton = document.getElementById('resetButton');
 const blackButton = document.getElementById('blackButton');
 const rainbowButton = document.getElementById('rainbowButton');
-const chooseColorButton = document.getElementById('pickerButton');
 const eraserButton = document.getElementById('eraserButton');
-const chooseColorInput = document.getElementById('colorPicker');
 const canvasSizeSlider = document.getElementById('slider');
 const canvasSizeSliderText = document.querySelector('.slidertext');
 const showGridLinesCheckbox = document.getElementById('checkbox');
@@ -26,17 +24,10 @@ blackButton.addEventListener('click', () => {
     color = 'black';
 });
 
-chooseColorInput.addEventListener('input', () => {
-    clearInterval(intervalID);
-    color = chooseColorInput.value;
-});
-
-chooseColorButton.addEventListener('click', () => {
-    chooseColorInput.value = '#0000ff'
-    chooseColorInput.click();
-});
-
 rainbowButton.addEventListener('click', () => {
+    if (intervalID) {
+        clearInterval(intervalID);
+    }
     intervalID = setInterval(setRandomColor, 50);
 });
 
